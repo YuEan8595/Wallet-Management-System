@@ -1,0 +1,303 @@
+{
+  "info": {
+    "name": "Wallet Management System",
+    "_postman_id": "wallet-mgmt-system",
+    "description": "Postman collection to test Wallet Management System APIs with Basic Auth, multiple test cases including decimal validation.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "auth": {
+    "type": "basic",
+    "basic": [
+      {
+        "key": "username",
+        "value": "admin"
+      },
+      {
+        "key": "password",
+        "value": "admin123"
+      }
+    ]
+  },
+  "item": [
+    {
+      "name": "Create User - Success",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"name\": \"John Doe\",\n  \"email\": \"john.doe@example.com\",\n  \"phone\": \"1234567890\"\n}"
+        },
+        "url": {
+          "raw": "http://localhost:8080/api/users",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "8080",
+          "path": ["api", "users"]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Create User - Fail Duplicate Email",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"name\": \"Jane Smith\",\n  \"email\": \"john.doe@example.com\",\n  \"phone\": \"9876543210\"\n}"
+        },
+        "url": {
+          "raw": "http://localhost:8080/api/users",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "8080",
+          "path": ["api", "users"]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Get Wallet Balance",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "http://localhost:8080/api/wallets/1/balance",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "8080",
+          "path": ["api", "wallets", "1", "balance"]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Deposit to Wallet - Success",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"amount\": 100.00\n}"
+        },
+        "url": {
+          "raw": "http://localhost:8080/api/wallets/1/deposit",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "8080",
+          "path": ["api", "wallets", "1", "deposit"]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Deposit to Wallet - Fail Negative Amount",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"amount\": -50.00\n}"
+        },
+        "url": {
+          "raw": "http://localhost:8080/api/wallets/1/deposit",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "8080",
+          "path": ["api", "wallets", "1", "deposit"]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Deposit to Wallet - Fail More Than 2 Decimals",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"amount\": 10.123\n}"
+        },
+        "url": {
+          "raw": "http://localhost:8080/api/wallets/1/deposit",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "8080",
+          "path": ["api", "wallets", "1", "deposit"]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Transfer Between Wallets - Success",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"fromWalletId\": 1,\n  \"toWalletId\": 2,\n  \"amount\": 50.00\n}"
+        },
+        "url": {
+          "raw": "http://localhost:8080/api/wallets/transfer",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "8080",
+          "path": ["api", "wallets", "transfer"]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Transfer Between Wallets - Fail Insufficient Balance",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"fromWalletId\": 1,\n  \"toWalletId\": 2,\n  \"amount\": 10000.00\n}"
+        },
+        "url": {
+          "raw": "http://localhost:8080/api/wallets/transfer",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "8080",
+          "path": ["api", "wallets", "transfer"]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Transfer Between Wallets - Fail Negative Amount",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"fromWalletId\": 1,\n  \"toWalletId\": 2,\n  \"amount\": -20.00\n}"
+        },
+        "url": {
+          "raw": "http://localhost:8080/api/wallets/transfer",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "8080",
+          "path": ["api", "wallets", "transfer"]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Transfer Between Wallets - Fail Same Wallet",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"fromWalletId\": 1,\n  \"toWalletId\": 1,\n  \"amount\": 10.00\n}"
+        },
+        "url": {
+          "raw": "http://localhost:8080/api/wallets/transfer",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "8080",
+          "path": ["api", "wallets", "transfer"]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Transfer Between Wallets - Fail More Than 2 Decimals",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"fromWalletId\": 1,\n  \"toWalletId\": 2,\n  \"amount\": 25.123\n}"
+        },
+        "url": {
+          "raw": "http://localhost:8080/api/wallets/transfer",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "8080",
+          "path": ["api", "wallets", "transfer"]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Get Wallet Transactions",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "http://localhost:8080/api/wallets/1/transactions?page=0&size=20",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "8080",
+          "path": ["api", "wallets", "1", "transactions"],
+          "query": [
+            {
+              "key": "page",
+              "value": "0"
+            },
+            {
+              "key": "size",
+              "value": "20"
+            }
+          ]
+        }
+      },
+      "response": []
+    }
+  ]
+}
