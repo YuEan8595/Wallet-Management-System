@@ -124,4 +124,17 @@ User 1’s wallet balance
 Option to deposit funds and automatically refresh balance
 ```
 
+### Docker Setup Instructions (Optional)
+### Prerequisites
+- Docker installed on your machine
+### 1. Build Docker images
+```bash
+1. Navigate to the directory containing the Dockerfile
+2. Build the Docker image using:
+   docker build -t wallet-management-system .
+```
 
+### 2. Run Docker container
+```bash
+docker run -p 8080:8080 -v h2-data:/data wallet-management-system
+```
